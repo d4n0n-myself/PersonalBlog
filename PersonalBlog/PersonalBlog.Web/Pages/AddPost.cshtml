@@ -1,0 +1,15 @@
+@page
+
+<form id="f1" method="post" enctype="multipart/form-data" class="form-group" asp-action="Add" asp-controller="Posts">
+    <div class="list-group-item">
+        <label for="title">Title</label><br/>
+        <input type="text" id="title" name="title" value="title"/>
+    </div>  
+    <div class="list-group-item">
+        <label for="text">Text</label><br/>
+        <input type="text" id="text" name="text" value="text"/>
+    </div>
+    <div class="list-group-item">
+        <input type="submit" id="submit" value="Submit"/>
+    </div>
+</form>
