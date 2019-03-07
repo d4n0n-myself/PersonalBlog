@@ -48,7 +48,14 @@ namespace PersonalBlog.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseMvc();
+            app.UseMvc(options =>
+            {
+                options.MapRoute("default",
+                    "{controller=Home}/{action=Index}");
+                options.MapRoute("empty",
+                    "",
+                    new {controller = "Home", action = "Index"});
+            });
         }
     }
 }

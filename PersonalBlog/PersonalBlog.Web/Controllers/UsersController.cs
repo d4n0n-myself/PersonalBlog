@@ -9,14 +9,18 @@ namespace PersonalBlog.Web.Controllers
 	/// </summary>
 	public class UsersController : Controller
 	{
-		public void Add(string login, string password) => Repo.AddUser(login, password);
+		public UsersController()
+		{
+			_repository = new UserRepository();
+		}
+		public void Add(string login, string password) => _repository.AddUser(login, password);
 
-		public bool Contains(string login) => Repo.ContainUser(login);
+		public bool Contains(string login) => _repository.ContainUser(login);
 
-		public bool Check(string login, string password) => Repo.CheckPassword(login, password);
+		public bool Check(string login, string password) => _repository.CheckPassword(login, password);
 
-		public User Get(string login) => Repo.GetUserByLogin(login);
+		public User Get(string login) => _repository.GetUserByLogin(login);
 
-		private static readonly UserRepository Repo = new UserRepository();
+		private readonly UserRepository _repository;
 	}
 }
