@@ -54,10 +54,7 @@ namespace PersonalBlog.Web
             app.UseMvc(options =>
             {
                 options.MapRoute("default",
-                    "{controller=Home}/{action=Index}");
-                options.MapRoute("empty",
-                    "",
-                    new {controller = "Home", action = "Index"});
+                    "{controller=Posts}/{action=Show}/{id?}");
             });
         }
     }

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using PersonalBlog.Core.Entites;
 using PersonalBlog.Database;
 using PersonalBlog.Web.Pages;
+using PersonalBlog.Web.Views;
 
 namespace PersonalBlog.Web.Controllers
 {
@@ -20,66 +21,60 @@ namespace PersonalBlog.Web.Controllers
             _repository = new PostRepository();
         }
 
-        private Guid getUserId()
-        {
-            var userLogin = HttpContext.Request.Cookies["userLogin"];
-            var userRepo = new UserRepository();
-            return userRepo
-                .GetUserByLogin(userLogin)
-                .Id;
-        }
-
+        [HttpPost]
         public IActionResult Add()
         {
             var form = HttpContext.Request.Form;
             var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
             var text = Markdown.ToHtml(form["text"], pipeline);
             var title = form["title"];
-            _repository.AddPost(title, text, getUserId());
+            _repository.AddPost(title, text, GetUserId());
             return Show();
         }
-
-        public List<Post> Get()
-        {
-            try
-            {
-                return _repository.GetAllPosts();
-            }
-            catch (Exception e)
-            {
-                return new List<Post>();
-            }
-        }
-
-        public List<Post> Get(Guid userId)
-        {
-            try
-            {
-                return _repository.GetUsersPosts(userId);
-            }
-            catch (Exception e)
-            {
-                return new List<Post>();
-            }
-        }
-
-        public bool Contains(string header) => _repository.ContainPost(header);
-
-        public Post Get(string header) => _repository.GetPostByHeader(header);
 
         [HttpGet]
         public IActionResult Show()
         {
-            var posts = Get();
-            return View("~/Pages/ShowPosts.cshtml", new ShowPosts() {List = posts});
+            try
+            {
+                var posts = _repository.GetAllPosts();
+                return View("~/Pages/ShowPosts.cshtml", new ShowPosts() {List = posts});
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return View("~/Pages/Error.cshtml", new ErrorModel() {Exception = e});
+            }
         }
 
+        [HttpGet]
         public IActionResult ShowById()
         {
-            var posts = Get(getUserId());
-            return View("~/Pages/ShowPosts.cshtml", new ShowPosts() {List = posts});
+            try
+            {
+                var posts = _repository.GetUsersPosts(GetUserId());
+                return View("~/Pages/ShowPosts.cshtml", new ShowPosts() {List = posts});
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return View("~/Pages/Error.cshtml", new ErrorModel() {Exception = e});
+            }
         }
 
         private readonly PostRepository _repository;
+
+        private Guid GetUserId()
+        {
+            var userLogin = HttpContext.Request.Cookies["userLogin"];
+            var userRepo = new UserRepository();
+            return userRepo.GetUserByLogin(userLogin).Id;
+        }
+
+        [Obsolete]
+        private bool Contains(string header) => _repository.ContainPost(header);
+
+        [Obsolete]
+        private Post Get(string header) => _repository.GetPostByHeader(header);
     }
 }
