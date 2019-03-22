@@ -51,7 +51,9 @@ namespace PersonalBlog.Web.Controllers
         {
             try
             {
-                var posts = _repository.GetUsersPosts(GetUserId());
+                var posts = _repository.GetUsersPosts(GetUserId()).Count != 0
+                    ? _repository.GetUsersPosts(GetUserId())
+                    : new List<Post>();
                 return View("~/Pages/ShowPosts.cshtml", new ShowPosts() {List = posts});
             }
             catch (Exception e)
