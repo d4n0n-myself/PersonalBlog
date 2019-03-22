@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore.Design;
 using PersonalBlog.Core.Entites;
 using PersonalBlog.Database;
 using PersonalBlog.Web.Pages;
-using PersonalBlog.Web.Views;
 
 namespace PersonalBlog.Web.Controllers
 {

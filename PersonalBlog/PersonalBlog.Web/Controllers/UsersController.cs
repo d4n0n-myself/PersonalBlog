@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using PersonalBlog.Core.Entites;
 using PersonalBlog.Database;
 using PersonalBlog.Web.Pages;
-using PersonalBlog.Web.Views;
 
 namespace PersonalBlog.Web.Controllers
 {
@@ -18,6 +17,7 @@ namespace PersonalBlog.Web.Controllers
 			_repository = new UserRepository();
 		}
 
+		[HttpPost]
 		public IActionResult LogIn()
 		{
 			var form = HttpContext.Request.Form;
