@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Markdig;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Design;
 using PersonalBlog.Core.Entites;
 using PersonalBlog.Database;
 using PersonalBlog.Web.Pages;
@@ -18,25 +20,22 @@ namespace PersonalBlog.Web.Controllers
             _repository = new PostRepository();
         }
 
+        private Guid getUserId()
+        {
+            var userLogin = HttpContext.Request.Cookies["userLogin"];
+            var userRepo = new UserRepository();
+            return userRepo
+                .GetUserByLogin(userLogin)
+                .Id;
+        }
+
         public IActionResult Add()
         {
             var form = HttpContext.Request.Form;
-            var text = form["text"];
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+            var text = Markdown.ToHtml(form["text"], pipeline);
             var title = form["title"];
-            
-            //TODO - исправить как было
-            Guid userId = new Guid();
-//            try
-//            {
-//                userId = new Guid(HttpContext.Request.Cookies["userId"]);
-//            }
-//            catch (Exception e)
-//            {
-//                HttpContext.Response.Redirect("/Home/Authentificate");
-//                return;
-//            }
-
-            _repository.AddPost(title, text, userId);
+            _repository.AddPost(title, text, getUserId());
             return Show();
         }
 
@@ -52,18 +51,17 @@ namespace PersonalBlog.Web.Controllers
             }
         }
 
-//        public List<Post> Get()
-//        {
-//            try
-//            {
-//                var userId = new Guid(HttpContext.Request.Cookies["userId"]);
-//                return _repository.GetUsersPosts(userId);
-//            }
-//            catch (Exception e)
-//            {
-//                return new List<Post>();
-//            }
-//        }
+        public List<Post> Get(Guid userId)
+        {
+            try
+            {
+                return _repository.GetUsersPosts(userId);
+            }
+            catch (Exception e)
+            {
+                return new List<Post>();
+            }
+        }
 
         public bool Contains(string header) => _repository.ContainPost(header);
 
@@ -72,10 +70,16 @@ namespace PersonalBlog.Web.Controllers
         [HttpGet]
         public IActionResult Show()
         {
-            var posts = _repository.GetAllPosts();
-            return View("~/Pages/ShowPosts.cshtml", new ShowPosts() { List = posts});
+            var posts = Get();
+            return View("~/Pages/ShowPosts.cshtml", new ShowPosts() {List = posts});
         }
-        
+
+        public IActionResult ShowById()
+        {
+            var posts = Get(getUserId());
+            return View("~/Pages/ShowPosts.cshtml", new ShowPosts() {List = posts});
+        }
+
         private readonly PostRepository _repository;
     }
 }

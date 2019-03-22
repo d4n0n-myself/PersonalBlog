@@ -1,8 +1,9 @@
+@using Westwind.AspNetCore.Markdown;
 @model PersonalBlog.Web.Pages.ShowPosts
 
 <div class="list-group"> 
     @foreach (var post in Model.List)
     {
-        @post.Body<br/>    
+        @Markdown.ParseHtmlString(post.Body)<br/>    
     } 
 </div>

@@ -15,12 +15,12 @@ namespace WebApplication1
 
 		public async Task InvokeAsync(HttpContext context)
 		{
-			if (!context.Request.Cookies.ContainsKey("login") &&
-			    !context.Request.Path.StartsWithSegments(new PathString("/Home/Authentificate")))
-				context.Response.Redirect("/Home/Authentificate");
-			if (context.Request.Cookies.ContainsKey("login") &&
-			    context.Request.Path.StartsWithSegments(new PathString("/Home/Authentificate")))
-				context.Response.Redirect("/Home");
+			if (!context.Request.Cookies.ContainsKey("userLogin") &&
+			    !context.Request.Path.StartsWithSegments(new PathString("/Login")))
+				context.Response.Redirect("/Login");
+			if (context.Request.Cookies.ContainsKey("userLogin") &&
+			    context.Request.Path.StartsWithSegments(new PathString("/Login")))
+				context.Response.Redirect("/");
 			await _next.Invoke(context);
 		}
 

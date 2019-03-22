@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace PersonalBlog.Web.Controllers
 {
@@ -18,7 +19,7 @@ namespace PersonalBlog.Web.Controllers
 		}
 
 		public IActionResult AddPost()
-		{
+		{	
 			return View();
 		}
 	}

@@ -7,8 +7,10 @@
 
 
   <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.16.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.2.4" />
   </ItemGroup>
 
   <ItemGroup>
