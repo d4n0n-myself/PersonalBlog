@@ -5,7 +5,7 @@ using PersonalBlog.Core.Entites;
 
 namespace PersonalBlog.Database
 {
-    public class CommentRepository
+    public class CommentRepository: ICommentRepository
     {
         public CommentRepository(ApplicationContext context)
         {
@@ -17,12 +17,23 @@ namespace PersonalBlog.Database
             _context = new ApplicationContext();
         }
 
-        public void Add(string commentText, Guid userId, Guid postId) =>
-            _context.Comments.Add(new Comment(commentText, userId, postId));
+        public bool Add(Guid userId, Guid postId, string comment)
+        {
+            try
+            {
+                _context.Comments.Add(new Comment(comment, userId, postId));
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
 
-        public List<Comment> GetPostComments(Guid postId) =>
+        public IEnumerable<Comment> Get(Guid postId)=>
             _context.Comments.Where(c => c.PostId.Equals(postId)).ToList();
         
         private readonly ApplicationContext _context;
+        
     }
 }
