@@ -4,9 +4,9 @@ namespace PersonalBlog.Core.Entites
 {
     public class Comment
     {
-        public Comment(Guid id, string commentText, Guid userId, Guid postId)
+        public Comment(string commentText, Guid userId, Guid postId)
         {
-            Id = id;
+            Id = Guid.NewGuid();
             CommentText = commentText;
             UserId = userId;
             PostId = postId;

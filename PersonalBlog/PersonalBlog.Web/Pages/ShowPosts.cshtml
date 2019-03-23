@@ -4,6 +4,6 @@
 <div class="list-group"> 
     @foreach (var post in Model.List)
     {
-        @Markdown.ParseHtmlString("*" + post.Header + "*:" + post.Content)<br/>    
+        @Markdown.ParseHtmlString( "<h3>" + post.Header + "</h3>" + post.Content)<br/><br> 
     } 
-</div>
+</div>    
