@@ -60,6 +60,8 @@ namespace PersonalBlog.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("ImgLink");
+
                     b.Property<string>("Login");
 
                     b.Property<string>("Password");

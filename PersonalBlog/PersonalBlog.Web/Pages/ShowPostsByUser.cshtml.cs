@@ -7,5 +7,6 @@ namespace PersonalBlog.Web.Pages
     public class ShowPostsByUser : PageModel
     {
         public IEnumerable<Post> List { get; set; }
+        public string ImgLink { get; set; }
     }
 }

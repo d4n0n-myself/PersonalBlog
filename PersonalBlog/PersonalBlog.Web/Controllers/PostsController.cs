@@ -18,6 +18,7 @@ namespace PersonalBlog.Web.Controllers
         public PostsController()
         {
             _repository = new PostRepository();
+            _userRepository = new UserRepository();
         }
 
         [HttpPost]
@@ -28,7 +29,7 @@ namespace PersonalBlog.Web.Controllers
             var text = Markdown.ToHtml(form["text"], pipeline);
             var content = form["main-text"];
             var title = form["title"];
-            _repository.AddPost(title, content, text, GetUserId());
+            _repository.AddPost(title, content, text, Helper.GetUserId(Request.Cookies["userLogin"]));
             return Show();
         }
 
@@ -52,10 +53,10 @@ namespace PersonalBlog.Web.Controllers
         {
             try
             {
-                var posts = _repository.GetUsersPosts(GetUserId()).Count != 0
-                    ? _repository.GetUsersPosts(GetUserId())
-                    : new List<Post>();
-                return View("~/Pages/ShowPostsByUser.cshtml", new ShowPosts() {List = posts});
+                var userId = Helper.GetUserId("userLogin");
+                var posts = _repository.GetUsersPosts(userId);
+                var imgLink = _userRepository.GetImgLink(userId);
+                return View("~/Pages/ShowPostsByUser.cshtml", new ShowPostsByUser() { List = posts, ImgLink = imgLink});
             }
             catch (Exception e)
             {
@@ -65,13 +66,7 @@ namespace PersonalBlog.Web.Controllers
         }
 
         private readonly PostRepository _repository;
-
-        private Guid GetUserId()
-        {
-            var userLogin = HttpContext.Request.Cookies["userLogin"];
-            var userRepo = new UserRepository();
-            return userRepo.GetUserByLogin(userLogin).Id;
-        }
+        private readonly UserRepository _userRepository;
 
         [Obsolete]
         private bool Contains(string header) => _repository.ContainPost(header);

@@ -15,7 +15,7 @@ namespace PersonalBlog.Web.Controllers
 		[HttpPost]
 		public IActionResult Add(Guid postId, string commentBody)
 		{
-			var userId = GetUserId();
+			var userId = Helper.GetUserId(Request.Cookies["userLogin"]);
 			if (!_repository.Add(userId, postId, commentBody))
 				return BadRequest();
 			return Ok();
@@ -38,11 +38,6 @@ namespace PersonalBlog.Web.Controllers
 
 		private readonly ICommentRepository _repository;
 
-		private Guid GetUserId()
-		{
-			var userLogin = HttpContext.Request.Cookies["userLogin"];
-			var userRepo = new UserRepository();
-			return userRepo.GetUserByLogin(userLogin).Id;
-		}
+		
 	}
 }
