@@ -53,7 +53,7 @@ namespace PersonalBlog.Web.Controllers
         {
             try
             {
-                var userId = Helper.GetUserId("userLogin");
+                var userId = Helper.GetUserId(Request.Cookies["userLogin"]);
                 var posts = _repository.GetUsersPosts(userId);
                 var imgLink = _userRepository.GetImgLink(userId);
                 return View("~/Pages/ShowPostsByUser.cshtml", new ShowPostsByUser() { List = posts, ImgLink = imgLink});

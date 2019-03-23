@@ -37,7 +37,7 @@ namespace PersonalBlog.Web.Controllers
 			var postsRepository =  new PostRepository();
 			var usersPosts = postsRepository.GetUsersPosts(userId);
 
-			return View("~/Pages/ShowPostsByUser.cshtml", new ShowPostsByUser() { ImgLink = "imgs/" + img.FileName, List = usersPosts});
+			return View("~/Pages/ShowPostsByUser.cshtml", new ShowPostsByUser() { ImgLink = img.FileName, List = usersPosts});
 		}
 
 		[HttpPost]
