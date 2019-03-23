@@ -21,4 +21,10 @@
     <ProjectReference Include="..\PersonalBlog.Core\PersonalBlog.Core.csproj" />
     <ProjectReference Include="..\PersonalBlog.Database\PersonalBlog.Database.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Shared\_CookieConsentPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
+  </ItemGroup>
 </Project>

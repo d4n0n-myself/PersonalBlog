@@ -23,25 +23,24 @@ namespace PersonalBlog.Web.Controllers
 			var form = HttpContext.Request.Form;
 			var login = form["login"];
 			var password = form["password"];
-			var postsController = new PostsController();
 			if (Contains(login))
 			{
 				if (!Check(login, password))
-					return View("~/Pages/Login.cshtml", new Login() {PasswordWrong = true}); // TODO - заставить Login инициализораваться  
+					return View("~/Views/Login.cshtml", new Login() { PasswordWrong = "1234567"}); // TODO - заставить Login инициализораваться  
 				Response.Cookies.Append("userLogin", login);
-				return postsController.ShowById(); 
+				return Redirect("/Posts/Show");
 			}
 			
 			Add(login, password);
 			Response.Cookies.Append("userLogin", login);
-			return postsController.ShowById(); 
+			return Redirect("/Posts/Show");
 		}
 
 		[HttpGet]
 		public IActionResult LogOut()
 		{
 			Response.Cookies.Delete("userLogin");
-			return View("~/Pages/Login.cshtml", new Login() {PasswordWrong = false});
+			return View("~/Views/Login.cshtml", new Login() { PasswordWrong = "logged out"});
 		}
 		
 		private void Add(string login, string password) => _repository.AddUser(login, password);

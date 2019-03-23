@@ -1,16 +1,24 @@
-@page
 @model PersonalBlog.Web.Pages.Login
 
 <form id="f2" method="post" enctype="multipart/form-data" class="form-group" asp-action="LogIn" asp-controller="Users">
     <div class="list-group-item">
         <label for="login">Login</label><br/>
         <input type="text" id="login" name="login" value="login"/>
-    </div>  
+    </div>
     <div class="list-group-item">
-        @if (Model.PasswordWrong)
-        {
-            <p><mark>Password wrong, try again</mark></p><br/>
+        @{
+            var quote = "The future depends on what you do today. - Mahatma Gandhi";
         }
+        
+        @{
+            quote = "12345";
+            if (!Context.Request.Cookies.ContainsKey("userLogin") && @Model != null)
+            {
+                quote = "bnyay";
+            }
+            
+        }
+
         <label for="password">Password</label><br/>
         <input type="text" id="password" name="password" value="password"/>
     </div>
@@ -18,3 +26,4 @@
         <input type="submit" id="submit"/>
     </div>
 </form>
+

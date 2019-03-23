@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using PersonalBlog.Web.Pages;
 
 namespace WebApplication1
 {
@@ -16,11 +18,12 @@ namespace WebApplication1
 		public async Task InvokeAsync(HttpContext context)
 		{
 			if (!context.Request.Cookies.ContainsKey("userLogin") &&
-			    !context.Request.Path.StartsWithSegments(new PathString("/Login")))
-				context.Response.Redirect("/Login");
+			    !context.Request.Path.StartsWithSegments(new PathString("/Home/Login")))
+				context.Response.Redirect("/Home/Login");
 			if (context.Request.Cookies.ContainsKey("userLogin") &&
-			    context.Request.Path.StartsWithSegments(new PathString("/Login")))
+			    context.Request.Path.StartsWithSegments(new PathString("/Home/Login")))
 				context.Response.Redirect("/");
+
 			await _next.Invoke(context);
 		}
 
