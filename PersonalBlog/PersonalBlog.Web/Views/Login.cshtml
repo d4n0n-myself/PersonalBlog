@@ -7,19 +7,13 @@
     </div>
     <div class="list-group-item">
         @{
-            var quote = "The future depends on what you do today. - Mahatma Gandhi";
+            ViewBag.Error = "123";
         }
-        
-        @{
-            quote = "12345";
-            if (!Context.Request.Cookies.ContainsKey("userLogin") && @Model != null)
+        @if (@Model == null)
             {
-                quote = "bnyay";
             }
-            
-        }
 
-        <label for="password">Password</label><br/>
+        <label for="password">@Model.PasswordWrong Password</label><br/>
         <input type="text" id="password" name="password" value="password"/>
     </div>
     <div class="list-group-item">

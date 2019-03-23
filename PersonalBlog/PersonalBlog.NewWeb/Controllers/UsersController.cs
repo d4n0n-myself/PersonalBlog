@@ -1,8 +1,6 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
 using PersonalBlog.Core.Entites;
 using PersonalBlog.Database;
-using PersonalBlog.Web.Pages;
 
 namespace PersonalBlog.Web.Controllers
 {
@@ -27,7 +25,7 @@ namespace PersonalBlog.Web.Controllers
 			{
 				TempData.Add("Error", "Error1");
 				if (!Check(login, password))
-					return View("~/Views/Login.cshtml", new Login() { PasswordWrong = "1234567", TempData = this.TempData}); // TODO - заставить Login инициализораваться  
+//					return View("~/Views/Login.cshtml", new Login() { PasswordWrong = "1234567", TempData = this.TempData}); // TODO - заставить Login инициализораваться  
 				Response.Cookies.Append("userLogin", login);
 				return Redirect("/Posts/Show");
 			}
@@ -38,10 +36,10 @@ namespace PersonalBlog.Web.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult LogOut()
+		public void LogOut()
 		{
 			Response.Cookies.Delete("userLogin");
-			return View("~/Views/Login.cshtml", new Login() { PasswordWrong = "logged out"});
+//			return View("~/Views/Login.cshtml", new Login() { PasswordWrong = "logged out"});
 		}
 		
 		private void Add(string login, string password) => _repository.AddUser(login, password);
