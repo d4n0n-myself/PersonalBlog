@@ -2,7 +2,9 @@
 @{
     var x = $"imgs/{Model.ImgLink}";
 }
-<img src="~/@x" alt="text" height="300px"/>
+@if(Model.ImgLink != null){
+    <img src="~/@x" alt="text" height="300px"/>
+}
 <div class="list-group"> 
     @foreach (var post in Model.List)
     {
