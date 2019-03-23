@@ -26,8 +26,9 @@ namespace PersonalBlog.Web.Controllers
             var form = HttpContext.Request.Form;
             var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
             var text = Markdown.ToHtml(form["text"], pipeline);
+            var content = form["main-text"];
             var title = form["title"];
-            _repository.AddPost(title, text, GetUserId());
+            _repository.AddPost(title, content, text, GetUserId());
             return Show();
         }
 

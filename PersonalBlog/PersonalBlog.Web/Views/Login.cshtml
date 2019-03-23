@@ -1,4 +1,4 @@
-@model PersonalBlog.Web.Pages.Login
+@model PersonalBlog.Web.Views.Login
 
 <form id="f2" method="post" enctype="multipart/form-data" class="form-group" asp-action="LogIn" asp-controller="Users">
     <div class="list-group-item">
@@ -11,14 +11,21 @@
         }
         
         @{
-            quote = "12345";
-            if (!Context.Request.Cookies.ContainsKey("userLogin") && @Model != null)
+            try
             {
-                quote = "bnyay";
+                if ( @Model.PasswordWrong != null)
+                {
+                    quote = "bnyay";
+                    <p>The value was even.</p>
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
             
         }
-
+        @quote
         <label for="password">Password</label><br/>
         <input type="text" id="password" name="password" value="password"/>
     </div>

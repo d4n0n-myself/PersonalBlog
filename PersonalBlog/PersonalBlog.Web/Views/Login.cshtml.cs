@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace PersonalBlog.Web.Pages
+namespace PersonalBlog.Web.Views
 {
     public class Login : PageModel
     {

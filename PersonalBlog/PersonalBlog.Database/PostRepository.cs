@@ -17,20 +17,20 @@ namespace PersonalBlog.Database
             _context = new ApplicationContext();
         }
 
-        public void AddPost(string header, string body, Guid userId)
+        public void AddPost(string header, string content, string body, Guid userId)
         {
-            _context.Posts.Add(new Post(userId, header, body));
+            _context.Posts.Add(new Post(userId, header, content, body));
             _context.SaveChanges();
         }
-        
+
         public bool ContainPost(string header) => _context.Posts.Any(p => p.Header.Equals(header));
 
         public Post GetPostByHeader(string header) => _context.Posts.First(p => p.Header.Equals(header));
 
         public List<Post> GetUsersPosts(Guid userId) => _context.Posts.Where(p => p.UserId.Equals(userId)).ToList();
-        
+
         public List<Post> GetAllPosts() => _context.Posts.ToList();
-        
+
         private readonly ApplicationContext _context;
     }
 }
