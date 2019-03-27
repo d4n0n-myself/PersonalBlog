@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Markdig;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.EntityFrameworkCore.Design;
 using PersonalBlog.Core.Entites;
 using PersonalBlog.Database;
@@ -19,6 +21,7 @@ namespace PersonalBlog.Web.Controllers
         {
             _repository = new PostRepository();
             _userRepository = new UserRepository();
+            _commentRepository = new CommentRepository();
         }
 
         [HttpPost]
@@ -29,12 +32,28 @@ namespace PersonalBlog.Web.Controllers
             var text = Markdown.ToHtml(form["text"], pipeline);
             var content = form["main-text"];
             var title = form["title"];
-            _repository.AddPost(title, content, text, Helper.GetUserId(Request.Cookies["userLogin"]));
-            return Show();
+            try
+            {
+                _repository.AddPost(title, content, text, Helper.GetUserId(Request.Cookies["userLogin"]));
+                return ShowAllPosts();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return View("~/Pages/Error.cshtml", new ErrorModel() {Exception = e});
+            }
         }
 
         [HttpGet]
-        public IActionResult Show()
+        public IActionResult ShowPostById(string postHeader)
+        {
+            var post = _repository.GetPostByHeader(postHeader);
+            var comm = _commentRepository.Get(post.Id);
+            return View("~/Pages/ShowPost.cshtml", new ShowPost() {Post = post, Comments = comm});
+        }
+
+        [HttpGet]
+        public IActionResult ShowAllPosts()
         {
             try
             {
@@ -56,7 +75,7 @@ namespace PersonalBlog.Web.Controllers
                 var userId = Helper.GetUserId(Request.Cookies["userLogin"]);
                 var posts = _repository.GetUsersPosts(userId);
                 var imgLink = _userRepository.GetImgLink(userId);
-                return View("~/Pages/ShowPostsByUser.cshtml", new ShowPostsByUser() { List = posts, ImgLink = imgLink});
+                return View("~/Pages/ShowPostsByUser.cshtml", new ShowPostsByUser() {List = posts, ImgLink = imgLink});
             }
             catch (Exception e)
             {
@@ -67,11 +86,9 @@ namespace PersonalBlog.Web.Controllers
 
         private readonly PostRepository _repository;
         private readonly UserRepository _userRepository;
+        private readonly CommentRepository _commentRepository;
 
         [Obsolete]
         private bool Contains(string header) => _repository.ContainPost(header);
-
-        [Obsolete]
-        private Post Get(string header) => _repository.GetPostByHeader(header);
     }
 }

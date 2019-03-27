@@ -1,11 +1,14 @@
-@using Westwind.AspNetCore.Markdown;
 @model PersonalBlog.Web.Pages.ShowPosts
+
+<h3 class="modal-header">Posts by all users</h3>
 
 <div class="list-group"> 
     @foreach (var post in Model.List)
     {
-        <div class="list-group-item">
-            @Markdown.ParseHtmlString( "<h3>" + post.Header + "</h3>" + post.Content)<br/>   
-        </div>
+        <form style="margin: 20px" class="list-inline-item" action="/Posts/ShowPostById">
+            @Markdown.ParseHtmlString( "<h5>" + post.Header + "</h5>" + post.Content)
+            <input type="hidden" name="postHeader" value="@post.Header"/>
+            <input class="float-right btn btn-outline-dark" type="submit" value="Show full post" />
+        </form>
     } 
-</div>    
+</div>

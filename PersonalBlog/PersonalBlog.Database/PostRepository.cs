@@ -19,6 +19,7 @@ namespace PersonalBlog.Database
 
         public void AddPost(string header, string content, string body, Guid userId)
         {
+            if (_context.Posts.Any(p => p.Header == header)) throw new ArgumentException("Name already exists!");
             _context.Posts.Add(new Post(userId, header, content, body));
             _context.SaveChanges();
         }

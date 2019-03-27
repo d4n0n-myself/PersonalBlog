@@ -51,13 +51,12 @@ namespace PersonalBlog.Web.Controllers
 				if (!Check(login, password))
 					return View("~/Views/Login.cshtml",
 						new Login() {PasswordWrong = "1234567"}); 
-				Response.Cookies.Append("userLogin", login);
-				return Redirect("/Posts/Show");
 			}
+			else
+				Add(login, password);
 
-			Add(login, password);
 			Response.Cookies.Append("userLogin", login);
-			return Redirect("/Posts/Show");
+			return Redirect("/Posts/ShowAllPosts");
 		}
 
 		[HttpGet]
