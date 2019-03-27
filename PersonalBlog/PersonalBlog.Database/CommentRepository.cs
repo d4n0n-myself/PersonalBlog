@@ -22,6 +22,7 @@ namespace PersonalBlog.Database
             try
             {
                 _context.Comments.Add(new Comment(comment, userId, postId));
+                _context.SaveChanges();
             }
             catch (Exception e)
             {

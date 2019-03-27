@@ -1,0 +1,30 @@
+@using Westwind.AspNetCore.Markdown
+@model PersonalBlog.Web.Views.ShowPost
+
+
+<h3 class="modal-header">Post Details</h3>
+
+<div class="post">
+    @Markdown.ParseHtmlString("<h5>" + @Model.Post.Header + "</h5>") <br>
+    @Markdown.ParseHtmlString(@Model.Post.Body) <br>
+
+</div>
+
+<form id="f3" method="post" enctype="multipart/form-data" class="form-group" asp-action="Add" asp-controller="Comment">
+    <div class="add_comment">
+        <label for="comment_text">Comment</label><br/>
+        <textarea style="width: 100%" name="comment_text" id="comment_text" rows=3> </textarea>
+        <input type="hidden" name="post_id" value=@Model.Post.Id>
+        <br>
+        <input type="submit" id="submit" value="submit"/>
+    </div>
+</form>
+
+<div class="comments">
+    @foreach (var comment in Model.Comments.Reverse())
+    {
+        <br>
+        @Markdown.ParseHtmlString(comment.CommentText)
+    }
+
+</div>

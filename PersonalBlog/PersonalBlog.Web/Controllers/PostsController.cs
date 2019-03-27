@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using PersonalBlog.Core.Entites;
 using PersonalBlog.Database;
 using PersonalBlog.Web.Pages;
+using PersonalBlog.Web.Views;
 
 namespace PersonalBlog.Web.Controllers
 {
@@ -49,7 +50,7 @@ namespace PersonalBlog.Web.Controllers
         {
             var post = _repository.GetPostByHeader(postHeader);
             var comm = _commentRepository.Get(post.Id);
-            return View("~/Pages/ShowPost.cshtml", new ShowPost() {Post = post, Comments = comm});
+            return View("~/Views/ShowPost.cshtml", new ShowPost() {Post = post, Comments = comm});
         }
 
         [HttpGet]

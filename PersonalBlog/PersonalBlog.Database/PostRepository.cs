@@ -27,7 +27,9 @@ namespace PersonalBlog.Database
         public bool ContainPost(string header) => _context.Posts.Any(p => p.Header.Equals(header));
 
         public Post GetPostByHeader(string header) => _context.Posts.First(p => p.Header.Equals(header));
-
+        
+        public Post GetPostById(Guid postId) => _context.Posts.First(p => p.Id.Equals(postId));
+      
         public List<Post> GetUsersPosts(Guid userId) => _context.Posts.Where(p => p.UserId.Equals(userId)).ToList();
 
         public List<Post> GetAllPosts() => _context.Posts.ToList();
