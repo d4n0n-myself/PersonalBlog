@@ -41,6 +41,7 @@ namespace PersonalBlog.Web.Controllers
         [HttpGet]
         public IActionResult ShowPostById(string postHeader)
         {
+            postHeader = postHeader.Replace('+', ' ');
             var post = _repository.GetPostByHeader(postHeader);
             var comm = _commentRepository.Get(post.Id);
             return View("~/Views/ShowPost.cshtml", new PersonalBlog.Web.Views.ShowPost() { Post = post, Comments = comm});

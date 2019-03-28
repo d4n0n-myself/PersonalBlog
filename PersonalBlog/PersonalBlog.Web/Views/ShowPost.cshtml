@@ -1,5 +1,4 @@
-@using Newtonsoft.Json
-@using PersonalBlog.Core.Entites
+@using System.Linq
 @model PersonalBlog.Web.Views.ShowPost
 @{
     ViewBag.Title = "Index";
@@ -9,15 +8,17 @@
 <h5>@Model.Post.Content</h5>
 @Html.Raw(Model.Post.Body)
 
-<form id="f3" method="post" enctype="multipart/form-data" class="form-group" asp-action="Add" asp-controller="Comment" data-ajax="true" onsubmit="ajaxTest()">
+<form id="f3" class="form-group" onsubmit="ajaxTest()">
     <div>
         <label class="text-body text-dark" for="comment_text">Comment</label><br/>
-        <textarea style="width: 100%" name="comment_text" id="comment_text" rows=3> </textarea>
-        <input type="hidden" name="post_id" value=@Model.Post.Id>
+        <textarea id="textarea" style="width: 100%" name="comment_text" rows=3> </textarea>
+        <input id="postid" type="hidden" name="post_id" value=@Model.Post.Id>
+        <input id="postheader" type="hidden" name="postHeader" value=@Model.Post.Header.Replace(' ','+')>
         <input class="btn btn-outline-primary" type="submit" id="submit" value="Submit"/>
     </div>
 </form>
-
+<div id="results">
+</div>
 <div id="comments" style="margin-left: 40px">
     @foreach (var comm in Model.Comments.Reverse())
     {
@@ -28,28 +29,33 @@
     }
 </div>
 
-<div id="results">
-</div>
-
 @section Scripts
 {
-     <script type="text/javascript">
-         function ajaxTest() {
-             console.log("Entered method");
-             $.ajax({
-                 type: "GET",
-                 url: '/Comment/AjaxShow?postId=@Model.Post.Id', // <-- Where should this point?
-                 contentType: "application/json; charset=utf-8",
-                 dataType: "json",
-                 error: function(xhr, status, errorThrown) {
-                     var err = "Status: " + status + " " + errorThrown;
-                     console.log(err);
-                 }
-             }).done(function(data) {
-                 var object = JSON.parse(data);
-                 $('#results').push(object);
-                 console.log('func is done');
-             });
-         }
-     </script> 
+    <script type="text/javascript">
+        function ajaxTest() {
+            console.log("Entered method");
+            var textarea = $('#textarea').val();
+            var input = $('#postid').val();
+
+            $.ajax({
+                type: 'GET',
+                url: `/Comment/Add?textarea=${textarea}&input=${input}`,
+                error: function(xhr, status, errorThrown) {
+                    var err = "Status: " + status + " " + errorThrown;
+                    console.log(err);
+                }
+            }).done(function(data) {
+                var object = JSON.parse(data);
+                var div = document.createElement('div');
+                var p = document.createElement('p');
+                var text = document.createTextNode('1235');
+                p.appendChild(text);
+                div.appendChild(p);
+                $('#results').appendChild(div);
+                console.log('func is done');
+            });
+        }
+    </script>
 }
+
+@* `/Comment/Add?textarea=${textarea}&input=${input}` *@

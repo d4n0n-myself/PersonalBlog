@@ -15,23 +15,15 @@ namespace PersonalBlog.Web.Controllers
 			_postRepository = new PostRepository();
 		}
 
-		[HttpPost]
-		public void Add()
+		[HttpGet]
+		public IActionResult Add([FromQuery] string textarea, string input)
 		{
-			var form = HttpContext.Request.Form;
-			var commentBody = form["comment_text"];
-			var postId = Guid.Parse(form["post_id"]);
-
 			var userId = Helper.GetUserId(Request.Cookies["userLogin"]);
-			if (!_repository.Add(userId, postId, commentBody))
-			{throw new Exception();}
-//				return BadRequest();
-
-			var postHeader = _postRepository
-				.GetPostById(postId)
-				.Header;
-//			return Ok;()
-//			return RedirectToAction("ShowPostById", "Posts", new {postHeader});
+			if (!_repository.Add(userId, Guid.Parse(input), textarea))
+			{
+				throw new Exception();
+			}
+			return Ok();
 		}
 
 		[HttpGet]
