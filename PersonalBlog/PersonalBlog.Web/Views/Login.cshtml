@@ -1,0 +1,16 @@
+@model PersonalBlog.Web.Views.Login
+
+<form id="f2" method="post" enctype="multipart/form-data" class="form-group" asp-action="LogIn" asp-controller="Users">
+    <div class="list-group-item">
+        <label for="login">Login</label><br/>
+        <input type="text" id="login" name="login" value="login"/>
+    </div>
+    <div class="list-group-item">  
+        <label for="password">Password</label><br/>
+        <input type="text" id="password" name="password" value="password"/>
+    </div>
+    <div class="list-group-item">
+        <input type="submit" id="submit"/>
+    </div>
+</form>
+

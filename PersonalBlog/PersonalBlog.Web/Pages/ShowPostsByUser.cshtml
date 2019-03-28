@@ -1,0 +1,15 @@
+@model PersonalBlog.Web.Pages.ShowPostsByUser
+@{
+    var x = $"imgs/{Model.ImgLink}";
+}
+@if(Model.ImgLink != null){
+    <img src="~/@x" alt="text" height="300px"/>
+}
+<div class="list-group"> 
+    @foreach (var post in Model.List)
+    {
+        <div class="list-group-item">
+            @Markdown.ParseHtmlString("*" + post.Header + "*:" + post.Content)<br/>    
+        </div>
+    } 
+</div>

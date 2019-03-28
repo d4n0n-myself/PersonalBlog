@@ -7,17 +7,24 @@
 
 
   <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.16.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.2.4" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Views" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PersonalBlog.Core\PersonalBlog.Core.csproj" />
     <ProjectReference Include="..\PersonalBlog.Database\PersonalBlog.Database.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Shared\_CookieConsentPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
   </ItemGroup>
 </Project>

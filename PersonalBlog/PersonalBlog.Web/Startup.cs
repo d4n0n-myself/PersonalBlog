@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebApplication1;
 
 namespace PersonalBlog.Web
 {
@@ -48,13 +49,12 @@ namespace PersonalBlog.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseMiddleware<AuthentificationMiddleware>();
+            
             app.UseMvc(options =>
             {
                 options.MapRoute("default",
-                    "{controller=Home}/{action=Index}");
-                options.MapRoute("empty",
-                    "",
-                    new {controller = "Home", action = "Index"});
+                    "{controller=Posts}/{action=ShowAllPosts}/{id?}");
             });
         }
     }

@@ -1,0 +1,24 @@
+@model PersonalBlog.Web.Views.ShowPost
+
+<h3 class="modal-header"> @Model.Post.Header </h3>
+<h5>@Model.Post.Content</h5>
+@Html.Raw(Model.Post.Body)
+
+<form id="f3" method="post" enctype="multipart/form-data" class="form-group" asp-action="Add" asp-controller="Comment">
+    <div>
+        <label class="text-body text-dark" for="comment_text">Comment</label><br/>
+        <textarea style="width: 100%" name="comment_text" id="comment_text" rows=3> </textarea>
+        <input type="hidden" name="post_id" value=@Model.Post.Id>
+        <input class="btn btn-outline-primary" type="submit" id="submit" value="Submit"/>
+    </div>
+</form>
+
+<div id="comments" style="margin-left: 40px">
+    @foreach (var comm in Model.Comments.Reverse())
+    {
+        <div class="list-group-item">
+            <p><b>User:</b> @comm.UserId </p>
+            <div class="container text-muted">@comm.CommentText</div> 
+        </div>
+    }
+</div>
