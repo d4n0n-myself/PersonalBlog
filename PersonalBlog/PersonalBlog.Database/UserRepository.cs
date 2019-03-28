@@ -39,6 +39,7 @@ namespace PersonalBlog.Database
 
 		public User GetUserByLogin(string login) => _context.Users.FirstOrDefault(u => u.Login == login);
 
+		public User GetUserById(Guid id) => _context.Users.FirstOrDefault(u => u.Id == id);
 		public string GetImgLink(Guid userId) => _context.Users.FirstOrDefault(u => u.Id == userId)?.ImgLink;
 
 		private readonly ApplicationContext _context;
