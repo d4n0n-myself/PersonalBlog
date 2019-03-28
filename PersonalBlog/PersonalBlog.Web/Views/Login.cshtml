@@ -5,27 +5,7 @@
         <label for="login">Login</label><br/>
         <input type="text" id="login" name="login" value="login"/>
     </div>
-    <div class="list-group-item">
-        @{
-            var quote = "The future depends on what you do today. - Mahatma Gandhi";
-        }
-        
-        @{
-            try
-            {
-                if ( @Model.PasswordWrong != null)
-                {
-                    quote = "bnyay";
-                    <p>The value was even.</p>
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            
-        }
-        @quote
+    <div class="list-group-item">  
         <label for="password">Password</label><br/>
         <input type="text" id="password" name="password" value="password"/>
     </div>

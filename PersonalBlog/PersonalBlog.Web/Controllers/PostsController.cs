@@ -1,15 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Markdig;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.Language;
-using Microsoft.EntityFrameworkCore.Design;
-using PersonalBlog.Core.Entites;
 using PersonalBlog.Database;
 using PersonalBlog.Web.Pages;
-using PersonalBlog.Web.Views;
 
 namespace PersonalBlog.Web.Controllers
 {
@@ -50,7 +43,7 @@ namespace PersonalBlog.Web.Controllers
         {
             var post = _repository.GetPostByHeader(postHeader);
             var comm = _commentRepository.Get(post.Id);
-            return View("~/Views/ShowPost.cshtml", new ShowPost() {Post = post, Comments = comm});
+            return View("~/Views/ShowPost.cshtml", new PersonalBlog.Web.Views.ShowPost() { Post = post, Comments = comm});
         }
 
         [HttpGet]

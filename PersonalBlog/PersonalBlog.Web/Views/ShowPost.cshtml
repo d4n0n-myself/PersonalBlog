@@ -1,30 +1,24 @@
-@using Westwind.AspNetCore.Markdown
 @model PersonalBlog.Web.Views.ShowPost
 
-
-<h3 class="modal-header">Post Details</h3>
-
-<div class="post">
-    @Markdown.ParseHtmlString("<h5>" + @Model.Post.Header + "</h5>") <br>
-    @Markdown.ParseHtmlString(@Model.Post.Body) <br>
-
-</div>
+<h3 class="modal-header"> @Model.Post.Header </h3>
+<h5>@Model.Post.Content</h5>
+@Html.Raw(Model.Post.Body)
 
 <form id="f3" method="post" enctype="multipart/form-data" class="form-group" asp-action="Add" asp-controller="Comment">
-    <div class="add_comment">
-        <label for="comment_text">Comment</label><br/>
+    <div>
+        <label class="text-body text-dark" for="comment_text">Comment</label><br/>
         <textarea style="width: 100%" name="comment_text" id="comment_text" rows=3> </textarea>
         <input type="hidden" name="post_id" value=@Model.Post.Id>
-        <br>
-        <input type="submit" id="submit" value="submit"/>
+        <input class="btn btn-outline-primary" type="submit" id="submit" value="Submit"/>
     </div>
 </form>
 
-<div class="comments">
-    @foreach (var comment in Model.Comments.Reverse())
+<div id="comments" style="margin-left: 40px">
+    @foreach (var comm in Model.Comments.Reverse())
     {
-        <br>
-        @Markdown.ParseHtmlString(comment.CommentText)
+        <div class="list-group-item">
+            <p><b>User:</b> @comm.UserId </p>
+            <div class="container text-muted">@comm.CommentText</div> 
+        </div>
     }
-
 </div>
