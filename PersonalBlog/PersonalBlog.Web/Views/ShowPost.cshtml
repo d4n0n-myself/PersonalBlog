@@ -1,3 +1,5 @@
+@using Newtonsoft.Json
+@using PersonalBlog.Core.Entites
 @model PersonalBlog.Web.Views.ShowPost
 @{
     ViewBag.Title = "Index";
@@ -7,7 +9,7 @@
 <h5>@Model.Post.Content</h5>
 @Html.Raw(Model.Post.Body)
 
-<form id="f3" method="post" enctype="multipart/form-data" class="form-group" asp-action="Add" asp-controller="Comment" data-ajax="true" ajaxTest()>
+<form id="f3" method="post" enctype="multipart/form-data" class="form-group" asp-action="Add" asp-controller="Comment" data-ajax="true" onsubmit="ajaxTest()">
     <div>
         <label class="text-body text-dark" for="comment_text">Comment</label><br/>
         <textarea style="width: 100%" name="comment_text" id="comment_text" rows=3> </textarea>
@@ -35,8 +37,8 @@
          function ajaxTest() {
              console.log("Entered method");
              $.ajax({
-                 type: "POST",
-                 url: '/About', // <-- Where should this point?
+                 type: "GET",
+                 url: '/Comment/AjaxShow?postId=@Model.Post.Id', // <-- Where should this point?
                  contentType: "application/json; charset=utf-8",
                  dataType: "json",
                  error: function(xhr, status, errorThrown) {
@@ -44,20 +46,10 @@
                      console.log(err);
                  }
              }).done(function(data) {
-                 console.log(123);
+                 var object = JSON.parse(data);
+                 $('#results').push(object);
+                 console.log('func is done');
              });
          }
-     </script>
-    
-    <script type="text/javascript">
-        $(document).ready(function () {
-            console.log("js func");
-            $('#submit').click(function (e) {
-                e.preventDefault();
-                var name = $('#search').val();
-                name = encodeURIComponent(name);
-                $('#results').load("http://localhost:51805/Comment/Show?postId=" + @Model.Post.Id);
-            });
-        });
-    </script>
+     </script> 
 }

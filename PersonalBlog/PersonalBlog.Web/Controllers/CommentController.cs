@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PersonalBlog.Database;
 
 namespace PersonalBlog.Web.Controllers
@@ -14,7 +16,7 @@ namespace PersonalBlog.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Add()
+		public void Add()
 		{
 			var form = HttpContext.Request.Form;
 			var commentBody = form["comment_text"];
@@ -22,12 +24,14 @@ namespace PersonalBlog.Web.Controllers
 
 			var userId = Helper.GetUserId(Request.Cookies["userLogin"]);
 			if (!_repository.Add(userId, postId, commentBody))
-				return BadRequest();
+			{throw new Exception();}
+//				return BadRequest();
 
 			var postHeader = _postRepository
 				.GetPostById(postId)
 				.Header;
-			return RedirectToAction("ShowPostById", "Posts", new {postHeader});
+//			return Ok;()
+//			return RedirectToAction("ShowPostById", "Posts", new {postHeader});
 		}
 
 		[HttpGet]
@@ -42,6 +46,21 @@ namespace PersonalBlog.Web.Controllers
 			{
 				Console.WriteLine(e);
 				return BadRequest();
+			}
+		}
+		
+		[HttpGet]
+		public string AjaxShow(Guid postId)
+		{
+			try
+			{
+				var comments = _repository.Get(postId).ToArray();
+				return JsonConvert.SerializeObject(comments);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				return "SERVER ERROR";
 			}
 		}
 
