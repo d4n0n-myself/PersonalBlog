@@ -1,11 +1,9 @@
 @page
 
 <form id="f2" method="post" enctype="multipart/form-data" class="form-group" asp-action="AddImg" asp-controller="Users">
-    <div class="list-group-item">
-        <label for="file1">File</label><br/>
-        <input type="file" id="file1" name="title"/>
+    <div class="form-group">
+        <label for="file1" class="col-form-label">Place file</label>
+        <input class="form-control-file btn" type="file" id="file1" name="title"/>
     </div>
-    <div class="list-group-item">
-        <input type="submit" id="submit" value="Submit"/>
-    </div>
+    <input class="m-3 btn btn-outline-primary" type="submit" id="submit" value="Submit"/>
 </form>

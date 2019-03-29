@@ -3,7 +3,7 @@
 <h3 class="modal-header">Posts by all users</h3>
 
 <div class="list-group"> 
-    @foreach (var post in Model.List)
+    @foreach (var post in Model.List.Reverse())
     {
         <form style="margin: 20px" class="list-inline-item" action="/Posts/ShowPostById">
             @Markdown.ParseHtmlString( "<h5>" + post.Header + "</h5>" + post.Content)

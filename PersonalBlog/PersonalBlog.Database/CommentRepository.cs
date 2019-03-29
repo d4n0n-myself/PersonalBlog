@@ -17,18 +17,19 @@ namespace PersonalBlog.Database
             _context = new ApplicationContext();
         }
 
-        public bool Add(Guid userId, Guid postId, string comment)
+        public Comment Add(Guid userId, Guid postId, string comment)
         {
             try
             {
-                _context.Comments.Add(new Comment(comment, userId, postId));
+                var entityEntry = _context.Comments.Add(new Comment(comment, userId, postId));
                 _context.SaveChanges();
+                return entityEntry.Entity;
             }
             catch (Exception e)
             {
-                return false;
+                Console.WriteLine(e);
+                return null;
             }
-            return true;
         }
 
         public IEnumerable<Comment> Get(Guid postId)=>

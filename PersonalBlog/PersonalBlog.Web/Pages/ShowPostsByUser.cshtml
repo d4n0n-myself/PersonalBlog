@@ -2,16 +2,25 @@
 @{
     var x = $"imgs/{Model.ImgLink}";
 }
+
+<h3 class="modal-header">My Blog</h3>
+
 @if(Model.ImgLink != null){
     <img src="~/@x" alt="text" height="300px"/>
 }
 <div class="list-group"> 
-    @foreach (var post in Model.List)
+@*     @foreach (var post in Model.List.Reverse()) *@
+@*     { *@
+@*         <div class="list-group-item"> *@
+@*             @Markdown.ParseHtmlString("*" + post.Header + "*:" + post.Content)<br/>     *@
+@*         </div> *@
+@*     }  *@
+    @foreach (var post in Model.List.Reverse())
     {
         <form style="margin: 20px" class="list-inline-item" action="/Posts/ShowPostById">
-                @Markdown.ParseHtmlString( "<h5>" + post.Header + "</h5>" + post.Content)
-                <input type="hidden" name="postHeader" value="@post.Header"/>
-                <input class="float-right btn btn-outline-dark" type="submit" value="Show full post" />
+            @Markdown.ParseHtmlString( "<h5>" + post.Header + "</h5>" + post.Content)
+            <input type="hidden" name="postHeader" value="@post.Header"/>
+            <input class="float-right btn btn-outline-dark" type="submit" value="Show full post" />
         </form>
     } 
 </div>

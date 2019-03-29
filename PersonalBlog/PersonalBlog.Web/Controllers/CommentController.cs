@@ -1,5 +1,8 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using PersonalBlog.Core.Entites;
 using PersonalBlog.Database;
 
 namespace PersonalBlog.Web.Controllers
@@ -14,20 +17,11 @@ namespace PersonalBlog.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Add()
+		public IActionResult Add([FromQuery] string textarea, string input)
 		{
-			var form = HttpContext.Request.Form;
-			var commentBody = form["comment_text"];
-			var postId = Guid.Parse(form["post_id"]);
-
 			var userId = Helper.GetUserId(Request.Cookies["userLogin"]);
-			if (!_repository.Add(userId, postId, commentBody))
-				return BadRequest();
-
-			var postHeader = _postRepository
-				.GetPostById(postId)
-				.Header;
-			return RedirectToAction("ShowPostById", "Posts", new {postHeader});
+			var comment = _repository.Add(userId, Guid.Parse(input), textarea) ?? throw new ArgumentException();
+			return Json(comment);
 		}
 
 		[HttpGet]
