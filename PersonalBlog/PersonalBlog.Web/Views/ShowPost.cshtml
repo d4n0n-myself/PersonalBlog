@@ -40,7 +40,8 @@
         function ajaxTest() {
             console.log("Entered method");
             var textarea = $('#textarea').val();
-            var input = $('#postid').val();
+            var postId = $('#postid').val();
+            var input = Model.GetUserLogin(postId);
 
             $.ajax({
                 type: 'POST',
