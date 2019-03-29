@@ -1,19 +1,23 @@
 @page
 
 <form id="f1" method="post" enctype="multipart/form-data" class="form-group" asp-action="Add" asp-controller="Posts">
-    <div class="list-group-item">
-        <label for="title">Title</label><br/>
-        <input type="text" id="title" name="title" value="title"/>
-    </div>  
-    <div class="list-group-item">
-        <label for="main-text">Header</label><br/>
-        <textarea style="width: 100%" name=main-text id=main-text rows=4> </textarea>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Title</span>
+        </div>
+        <input type="text" class="form-control" aria-describedby="basic-addon1" id="title" name="title" value="title">
     </div>
-    <div class="list-group-item">
-        <label for="text">Text</label><br/>
-        <textarea style="width: 100%" name=text id=text rows=10> </textarea>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon2">Header</span>
+        </div>
+        <input type="text" class="form-control" aria-describedby="basic-addon2" name=main-text id=main-text value="header">
     </div>
-    <div class="list-group-item">
-        <input type="submit" id="submit" value="Submit"/>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text">With textarea</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea" name=text id=text></textarea>
     </div>
+    <input class="m-3 btn btn-outline-primary" type="submit" id="submit" value="Submit"/>
 </form>

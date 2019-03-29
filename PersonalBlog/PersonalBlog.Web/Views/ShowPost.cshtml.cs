@@ -13,10 +13,5 @@ namespace PersonalBlog.Web.Views
         }
         public Post Post { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
-
-        public JsonResult OnGetDefaultHandler()
-        {
-            return new JsonResult(new {Text = " 123"});
-        }
     }
 }

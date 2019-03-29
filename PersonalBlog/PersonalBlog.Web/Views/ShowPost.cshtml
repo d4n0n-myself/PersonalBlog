@@ -8,17 +8,20 @@
 <h5>@Model.Post.Content</h5>
 @Html.Raw(Model.Post.Body)
 
-<form id="f3" class="form-group" onsubmit="ajaxTest()">
+<h5 class="modal-header">Comments section</h5>
+
+<form id="f3" class="form-group">
     <div>
-        <label class="text-body text-dark" for="comment_text">Comment</label><br/>
+        <label class="text-body text-dark" for="comment_text">Add Comment</label><br/>
         <textarea id="textarea" style="width: 100%" name="comment_text" rows=3> </textarea>
         <input id="postid" type="hidden" name="post_id" value=@Model.Post.Id>
         <input id="postheader" type="hidden" name="postHeader" value=@Model.Post.Header.Replace(' ','+')>
-        <input class="btn btn-outline-primary" type="submit" id="submit" value="Submit"/>
+        <input class="btn btn-outline-primary" type="button" id="submit" value="Submit" onclick="ajaxTest()"/>
     </div>
 </form>
-<div id="results">
-</div>
+
+
+
 <div id="comments" style="margin-left: 40px">
     @foreach (var comm in Model.Comments.Reverse())
     {
@@ -38,24 +41,33 @@
             var input = $('#postid').val();
 
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: `/Comment/Add?textarea=${textarea}&input=${input}`,
                 error: function(xhr, status, errorThrown) {
                     var err = "Status: " + status + " " + errorThrown;
                     console.log(err);
                 }
             }).done(function(data) {
-                var object = JSON.parse(data);
-                var div = document.createElement('div');
+                $('#textarea').val('');
+                var commentDiv = document.createElement('div');
+                commentDiv.classList.add('container');
+                commentDiv.classList.add('text-muted');
                 var p = document.createElement('p');
-                var text = document.createTextNode('1235');
+                var b = document.createElement('b');
+                var textNode = document.createTextNode('User: ');
+                b.appendChild(textNode);
+                var text = document.createTextNode(data.userId);
+                p.appendChild(b);
                 p.appendChild(text);
+                var comment = document.createTextNode(data.commentText);
+                commentDiv.appendChild(comment);
+                var div = document.createElement('div');
+                div.classList.add('list-group-item');
                 div.appendChild(p);
-                $('#results').appendChild(div);
+                div.appendChild(commentDiv);
+                $('#comments').prepend(div);
                 console.log('func is done');
             });
         }
     </script>
 }
-
-@* `/Comment/Add?textarea=${textarea}&input=${input}` *@
