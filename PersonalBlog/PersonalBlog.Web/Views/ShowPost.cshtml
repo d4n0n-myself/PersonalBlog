@@ -1,4 +1,5 @@
 @using System.Linq
+@using Westwind.AspNetCore.Markdown
 @model PersonalBlog.Web.Views.ShowPost
 @{
     ViewBag.Title = "Index";
@@ -6,7 +7,7 @@
  
 <h3 class="modal-header"> @Model.Post.Header </h3>
 <h5>@Model.Post.Content</h5>
-@Html.Raw(Model.Post.Body)
+@Markdown.ParseHtmlString((Model.Post.Body))
 
 <h5 class="modal-header">Comments section</h5>
 
@@ -25,8 +26,9 @@
 <div id="comments" style="margin-left: 40px">
     @foreach (var comm in Model.Comments.Reverse())
     {
+        var userLogin = @Model.GetUserLogin(comm.UserId);
         <div class="list-group-item">
-            <p><b>User:</b> @comm.UserId </p>
+            <p><b>User:</b> @userLogin </p>
             <div class="container text-muted">@comm.CommentText</div> 
         </div>
     }
