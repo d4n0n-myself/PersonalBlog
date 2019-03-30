@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PersonalBlog.Core.Entites
 {
@@ -16,5 +17,8 @@ namespace PersonalBlog.Core.Entites
         public string CommentText { get; set; }
         public Guid UserId { get; set; }
         public Guid PostId { get; set; }
+        
+        [NotMapped]
+        public string UserLogin { get; set; }
     }
 }

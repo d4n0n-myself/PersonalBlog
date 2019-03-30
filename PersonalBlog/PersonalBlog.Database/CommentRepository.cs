@@ -32,9 +32,14 @@ namespace PersonalBlog.Database
             }
         }
 
-        public IEnumerable<Comment> Get(Guid postId)=>
-            _context.Comments.Where(c => c.PostId.Equals(postId)).ToList();
-        
+        public IEnumerable<Comment> Get(Guid postId)
+        {
+            var comments = _context.Comments.Where(c => c.PostId.Equals(postId));
+            foreach (var comment in comments)
+               comment.UserLogin = _context.Users.First(u => u.Id == comment.UserId)?.Login;
+            return comments;
+        }
+
         private readonly ApplicationContext _context;
         
     }

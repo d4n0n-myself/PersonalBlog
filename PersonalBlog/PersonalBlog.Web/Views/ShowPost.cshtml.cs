@@ -15,9 +15,5 @@ namespace PersonalBlog.Web.Views
 
         public Post Post { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
-
-        private readonly UserRepository _userRepository = new UserRepository();
-
-        public string GetUserLogin(Guid id) => _userRepository.GetUserById(id).Login;
     }
 }

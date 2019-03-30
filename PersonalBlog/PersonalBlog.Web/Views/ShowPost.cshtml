@@ -26,9 +26,8 @@
 <div id="comments" style="margin-left: 40px">
     @foreach (var comm in Model.Comments.Reverse())
     {
-        var userLogin = @Model.GetUserLogin(comm.UserId);
         <div class="list-group-item">
-            <p><b>User:</b> @userLogin </p>
+            <p><b>User:</b> @comm.UserLogin </p>
             <div class="container text-muted">@comm.CommentText</div> 
         </div>
     }
@@ -41,16 +40,16 @@
             console.log("Entered method");
             var textarea = $('#textarea').val();
             var postId = $('#postid').val();
-            var input = Model.GetUserLogin(postId);
 
             $.ajax({
                 type: 'POST',
-                url: `/Comment/Add?textarea=${textarea}&input=${input}`,
+                url: `/Comment/Add?textarea=${textarea}&input=${postId}`,
                 error: function(xhr, status, errorThrown) {
                     var err = "Status: " + status + " " + errorThrown;
                     console.log(err);
                 }
             }).done(function(data) {
+                console.log('entered done');
                 $('#textarea').val('');
                 var commentDiv = document.createElement('div');
                 commentDiv.classList.add('container');
@@ -59,7 +58,7 @@
                 var b = document.createElement('b');
                 var textNode = document.createTextNode('User: ');
                 b.appendChild(textNode);
-                var text = document.createTextNode(data.userId);
+                var text = document.createTextNode(data.userLogin);
                 p.appendChild(b);
                 p.appendChild(text);
                 var comment = document.createTextNode(data.commentText);
